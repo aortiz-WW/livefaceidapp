@@ -7,7 +7,6 @@ import cv2
 import av
 from typing import List
 from streamlit_webrtc import webrtc_streamer, WebRtcMode
-from twilio.rest import Client
 from skimage.transform import SimilarityTransform
 from types import SimpleNamespace
 from sklearn.metrics.pairwise import cosine_distances
@@ -40,9 +39,6 @@ class Match(SimpleNamespace):
 # Similarity threshold for face matching
 SIMILARITY_THRESHOLD = 1.0
 
-# Get twilio ice server configuration using twilio credentials from environment variables (set in streamlit secrets)
-# Ref: https://www.twilio.com/docs/stun-turn/api
-ICE_SERVERS = Client(os.environ["TWILIO_ACCOUNT_SID"], os.environ["TWILIO_AUTH_TOKEN"]).tokens.create().ice_servers
 
 # Init face detector and face recognizer
 FACE_RECOGNIZER = rt.InferenceSession("model.onnx", providers=rt.get_available_providers())
@@ -327,7 +323,7 @@ with st.container():
         key="LiveFaceRecognition",
         mode=WebRtcMode.SENDRECV,
         video_frame_callback=video_frame_callback,
-        rtc_configuration={"iceServers": ICE_SERVERS},
+        rtc_configuration={"iceServers":  [{"urls": ["stun:stun.l.google.com:19302"]}]},
         media_stream_constraints={"video": {"width": 1280}, "audio": False},
     )
     # except:
