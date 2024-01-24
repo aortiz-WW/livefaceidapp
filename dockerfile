@@ -1,5 +1,5 @@
 # Use the official CUDA-enabled image with development tools
-FROM ubuntu
+FROM nvidia/cuda:12.3.1-base-ubuntu20.04
 
 # Set the working directory to /app
 WORKDIR /app
