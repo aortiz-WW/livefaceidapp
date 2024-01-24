@@ -41,7 +41,7 @@ SIMILARITY_THRESHOLD = 1.0
 
 
 # Init face detector and face recognizer
-FACE_RECOGNIZER = rt.InferenceSession("model.onnx", providers=rt.get_available_providers())
+FACE_RECOGNIZER = rt.InferenceSession("model.onnx", providers=["CUDAExecutionProvider"])
 FACE_DETECTOR = mp.solutions.face_mesh.FaceMesh(
     refine_landmarks=True, min_detection_confidence=0.5, min_tracking_confidence=0.5, max_num_faces=7
 )
